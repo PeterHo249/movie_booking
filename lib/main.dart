@@ -1,111 +1,369 @@
 import 'package:flutter/material.dart';
+import 'package:movie_booking/movie.dart';
+import 'package:movie_booking/star_rating.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepOrange,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: GeneralInfo(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class GeneralInfo extends StatefulWidget {
+  GeneralInfo({
+    Key key,
+  }) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _GeneralInfoState createState() => _GeneralInfoState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _GeneralInfoState extends State<GeneralInfo> {
+  final Color deepOrange = Color(0xfff45716);
+  int currentRate = 5;
+  final Movie movie = Movie(
+    name: 'Coco',
+    year: 2017,
+    rate: 8.6,
+    classified: 'PG',
+    poster: 'assets/img/poster.png',
+    format: ['3D', 'IMAX'],
+    description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    category: ['Animation', 'Comedy', 'Adventure'],
+    lenght: 90,
+    startDate: DateTime(2017, 7, 15),
+    price: 8.3,
+  );
+  @override
+  void initState() {
+    super.initState();
+  }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildPoster(context),
+              _buildNameRow(context),
+              _buildShowRow(context),
+              _buildRateRow(context),
+              _buildDescription(context),
+            ],
+          ),
+          _buildBuyButton(context),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+    );
+  }
+
+  Widget _buildPoster(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.height;
+    return Stack(
+      alignment: AlignmentDirectional.bottomEnd,
+      children: [
+        Container(
+          width: screenWidth,
+          height: screenHeight * 0.3,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                movie.poster,
+              ),
+              fit: BoxFit.fill,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+            boxShadow: [
+              BoxShadow(
+                color: deepOrange,
+                blurRadius: 20.0,
+                offset: Offset(
+                  1.0,
+                  10.0,
+                ),
+              ),
+            ],
+          ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: FloatingActionButton(
+            child: Icon(
+              Icons.play_arrow,
+              color: Colors.white,
+              size: 35.0,
+            ),
+            onPressed: () {},
+            backgroundColor: Colors.white.withAlpha(150),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildNameRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 20.0,
+        left: 20.0,
+        right: 20.0,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Flexible(
+            flex: 7,
+            child: Row(
+              children: <Widget>[
+                Text(
+                  '${movie.name}',
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Text(
+                    '(${movie.year})',
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Flexible(
+            flex: 3,
+            child: Wrap(
+              spacing: 5.0,
+              children: movie.format.map((format) {
+                return Container(
+                  width: 50.0,
+                  child: Center(
+                    child: Text(
+                      '$format',
+                      style: TextStyle(
+                        color: deepOrange,
+                      ),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.0),
+                    ),
+                    border: Border.all(
+                      color: deepOrange,
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShowRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20.0,
+        vertical: 10.0,
+      ),
+      child: Text(
+        '${movie.classified} | ${movie.getLenght()} | ${movie.category.join(",")} | ${movie.getStartShowDate()}',
+        style: TextStyle(
+          fontSize: 15.0,
+          color: Colors.black54,
+        ),
+        overflow: TextOverflow.fade,
+        maxLines: 1,
+        textAlign: TextAlign.left,
+      ),
+    );
+  }
+
+  Widget _buildRateRow(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          Expanded(
+            flex: 3,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  '${movie.rate}',
+                  style: TextStyle(color: deepOrange, fontSize: 40.0),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Text(
+                    'Ratings',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 7,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                StarRating(
+                  rate: currentRate,
+                  color: Color(0x99f45716),
+                  selectedColor: deepOrange,
+                  onPressed: (rate) {
+                    setState(() {
+                      currentRate = rate;
+                    });
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Text(
+                    'Grade now',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDescription(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Text(
+            'Storyline',
+            style: TextStyle(fontSize: 30.0),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: Text(
+                movie.description,
+                overflow: TextOverflow.fade,
+                softWrap: true,
+                style: TextStyle(
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBuyButton(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        Container(
+          height: 80.0,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.white12,
+                Colors.white,
+              ],
+              stops: [
+                0,
+                0.2,
+              ],
+            ),
+          ),
+        ),
+        InkWell(
+          onTap: () {},
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15.0,
+              vertical: 15.0,
+            ),
+            child: Container(
+              child: Center(
+                child: Text(
+                  '\$${movie.price} BUY NOW',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              height: 50.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.0),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Colors.orange,
+                    deepOrange,
+                  ],
+                  stops: [
+                    0.2,
+                    0.5,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
