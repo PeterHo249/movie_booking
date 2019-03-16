@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_booking/model/movie.dart';
+import 'package:movie_booking/model/show_time.dart';
+import 'package:movie_booking/view/select_show.dart';
 import 'package:movie_booking/view/star_rating.dart';
 
 class GeneralInfo extends StatefulWidget {
@@ -27,6 +29,70 @@ class _GeneralInfoState extends State<GeneralInfo> {
     lenght: 90,
     startDate: DateTime(2017, 7, 15),
     price: 8.3,
+    showTimes: [
+      ShowTime(
+        date: DateTime.now(),
+        showDescriptions: [
+          ShowDescription(
+            time: '09:00',
+            format: '3D',
+            price: 9.0,
+            cinemaNumber: 1,
+          ),
+          ShowDescription(
+            time: '10:00',
+            format: '3D',
+            price: 9.0,
+            cinemaNumber: 1,
+          ),
+          ShowDescription(
+            time: '11:00',
+            format: '3D',
+            price: 9.0,
+            cinemaNumber: 1,
+          ),
+          ShowDescription(
+            time: '12:00',
+            format: '3D',
+            price: 9.0,
+            cinemaNumber: 1,
+          ),
+        ],
+      ),
+      ShowTime(
+        date: DateTime.now().add(
+          Duration(
+            days: 1,
+          ),
+        ),
+        showDescriptions: [
+          ShowDescription(
+            time: '09:00',
+            format: '3D',
+            price: 9.0,
+            cinemaNumber: 1,
+          ),
+          ShowDescription(
+            time: '10:00',
+            format: '3D',
+            price: 9.0,
+            cinemaNumber: 1,
+          ),
+          ShowDescription(
+            time: '11:00',
+            format: '3D',
+            price: 9.0,
+            cinemaNumber: 1,
+          ),
+          ShowDescription(
+            time: '12:00',
+            format: '3D',
+            price: 9.0,
+            cinemaNumber: 1,
+          ),
+        ],
+      ),
+    ],
   );
   @override
   void initState() {
@@ -41,23 +107,30 @@ class _GeneralInfoState extends State<GeneralInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Colors.white,
+      body: Stack(
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          ListView(
             children: <Widget>[
               _buildPoster(context),
               _buildNameRow(context),
               _buildShowRow(context),
               _buildRateRow(context),
               _buildDescription(context),
+              Container(
+                height: 80.0,
+              ),
             ],
           ),
-          _buildBuyButton(context),
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Container(),
+              _buildBuyButton(context),
+            ],
+          ),
         ],
       ),
     );
@@ -199,39 +272,22 @@ class _GeneralInfoState extends State<GeneralInfo> {
   Widget _buildRateRow(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                flex: 3,
+                child: Text(
                   '${movie.rate}',
                   style: TextStyle(color: deepOrange, fontSize: 40.0),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Text(
-                    'Ratings',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.black54,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 7,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                StarRating(
+              ),
+              Expanded(
+                flex: 7,
+                child: StarRating(
                   rate: currentRate,
                   color: Color(0x99f45716),
                   selectedColor: deepOrange,
@@ -241,17 +297,17 @@ class _GeneralInfoState extends State<GeneralInfo> {
                     });
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: Text(
-                    'Grade now',
-                    style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.black54,
-                    ),
-                  ),
-                ),
-              ],
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Text(
+              'Ratings',
+              style: TextStyle(
+                fontSize: 15.0,
+                color: Colors.black54,
+              ),
             ),
           ),
         ],
@@ -272,15 +328,12 @@ class _GeneralInfoState extends State<GeneralInfo> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Text(
-                movie.description,
-                overflow: TextOverflow.fade,
-                softWrap: true,
-                style: TextStyle(
-                  fontSize: 15.0,
-                ),
+            child: Text(
+              movie.description,
+              overflow: TextOverflow.fade,
+              softWrap: true,
+              style: TextStyle(
+                fontSize: 15.0,
               ),
             ),
           ),
@@ -311,7 +364,9 @@ class _GeneralInfoState extends State<GeneralInfo> {
           ),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            onBuyTapped(context);
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 15.0,
@@ -348,6 +403,21 @@ class _GeneralInfoState extends State<GeneralInfo> {
           ),
         ),
       ],
+    );
+  }
+
+  void onBuyTapped(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SelectShow(
+          movie: movie,
+          onShowSelected: (selectedShow) {
+            print(selectedShow);
+            Navigator.pop(context);
+          },
+        );
+      },
     );
   }
 }
