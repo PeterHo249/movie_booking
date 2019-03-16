@@ -136,35 +136,38 @@ class _SelectShowState extends State<SelectShow> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Colors.orange,
-                deepOrange,
-              ],
-              stops: [
-                0,
-                0.3,
-              ],
-            ),
-          ),
-          child: ListTile(
-            title: Text(
-              'Cinema Name',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+        Hero(
+          tag: 'bookingInfo',
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Colors.orange,
+                  deepOrange,
+                ],
+                stops: [
+                  0,
+                  0.3,
+                ],
               ),
             ),
-            subtitle: Text(
-              '${today.day}/${today.month}/${today.year}',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15.0,
+            child: ListTile(
+              title: Text(
+                'Cinema Name',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(
+                '${today.day}/${today.month}/${today.year}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0,
+                ),
               ),
             ),
           ),

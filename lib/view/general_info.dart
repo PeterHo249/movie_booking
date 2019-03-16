@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_booking/model/movie.dart';
 import 'package:movie_booking/model/show_time.dart';
+import 'package:movie_booking/view/select_seat.dart';
 import 'package:movie_booking/view/select_show.dart';
 import 'package:movie_booking/view/star_rating.dart';
 
@@ -413,8 +414,17 @@ class _GeneralInfoState extends State<GeneralInfo> {
         return SelectShow(
           movie: movie,
           onShowSelected: (selectedShow) {
-            print(selectedShow);
-            Navigator.pop(context);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return SelectSeat(
+                    showTime: selectedShow,
+                  );
+                },
+              ),
+            ).then((value) {
+              Navigator.pop(context);
+            });
           },
         );
       },
