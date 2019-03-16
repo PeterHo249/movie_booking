@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movie_booking/model/block.dart';
 import 'package:movie_booking/model/show_time.dart';
+import 'package:movie_booking/view/seat_block.dart';
 
 class SelectSeat extends StatefulWidget {
   final ShowTime showTime;
@@ -11,6 +13,11 @@ class SelectSeat extends StatefulWidget {
 
 class _SelectSeatState extends State<SelectSeat> {
   final Color deepOrange = Color(0xfff45716);
+  final List<Block> blocks = [
+    Block(rowCount: 10, columnCount: 3, seatCount: 300),
+    Block(rowCount: 10, columnCount: 6, seatCount: 600),
+    Block(rowCount: 10, columnCount: 3, seatCount: 300),
+  ];
 
   void initState() {
     super.initState();
@@ -106,7 +113,9 @@ class _SelectSeatState extends State<SelectSeat> {
   }
 
   Widget _buildSeatBlock(BuildContext context) {
-    return Container();
+    return SeatBlock(
+      blocks: blocks,
+    );
   }
 
   Widget _buildBookingInfo(BuildContext context) {
