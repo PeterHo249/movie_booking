@@ -84,13 +84,16 @@ class _SelectSeatState extends State<SelectSeat> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: deepOrange,
+          Hero(
+            tag: 'screen',
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: deepOrange,
+              ),
+              height: 10.0,
+              width: screenWidth * 0.6,
             ),
-            height: 15.0,
-            width: screenWidth * 0.6,
           ),
           Transform(
             transform: Matrix4.identity()
@@ -130,7 +133,7 @@ class _SelectSeatState extends State<SelectSeat> {
           ],
           onTap: (value) {
             setState(() {
-             selectedSeatCount =value; 
+              selectedSeatCount = value;
             });
           },
         ),

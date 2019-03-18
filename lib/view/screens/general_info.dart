@@ -140,44 +140,70 @@ class _GeneralInfoState extends State<GeneralInfo> {
   Widget _buildPoster(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.height;
-    return Stack(
-      alignment: AlignmentDirectional.bottomEnd,
-      children: [
-        Container(
-          width: screenWidth,
-          height: screenHeight * 0.3,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                movie.poster,
-              ),
-              fit: BoxFit.fill,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: deepOrange,
-                blurRadius: 20.0,
-                offset: Offset(
-                  1.0,
-                  10.0,
+    return Hero(
+      tag: 'screen',
+      flightShuttleBuilder: (
+        BuildContext flightContext,
+        Animation<double> animation,
+        HeroFlightDirection flightDirection,
+        BuildContext fromHeroContext,
+        BuildContext toHeroContext,
+      ) {
+        final Hero toHero = toHeroContext.widget;
+
+        return AnimatedBuilder(
+          animation: animation,
+          child: toHero.child,
+          builder: (BuildContext context, Widget child) {
+            return Transform(
+              child: child,
+              alignment: FractionalOffset.topCenter,
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.006)
+                ..rotateX(animation.value * (3.14 / 2)),
+            );
+          },
+        );
+      },
+      child: Stack(
+        alignment: AlignmentDirectional.bottomEnd,
+        children: [
+          Container(
+            width: screenWidth,
+            height: screenHeight * 0.3,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  movie.poster,
                 ),
+                fit: BoxFit.fill,
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: FloatingActionButton(
-            child: Icon(
-              Icons.play_arrow,
-              color: Colors.white,
-              size: 35.0,
+              boxShadow: [
+                BoxShadow(
+                  color: deepOrange,
+                  blurRadius: 20.0,
+                  offset: Offset(
+                    1.0,
+                    10.0,
+                  ),
+                ),
+              ],
             ),
-            onPressed: () {},
-            backgroundColor: Colors.white.withAlpha(150),
           ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: FloatingActionButton(
+              child: Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 35.0,
+              ),
+              onPressed: () {},
+              backgroundColor: Colors.white.withAlpha(150),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -417,17 +443,21 @@ class _GeneralInfoState extends State<GeneralInfo> {
         return SelectShow(
           movie: movie,
           onShowSelected: (selectedShow) {
+            Navigator.of(context).pop();
             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) {
+              PageRouteBuilder(
+                pageBuilder: (
+                  BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                ) {
                   return SelectSeat(
                     showTime: selectedShow,
                   );
                 },
+                transitionDuration: Duration(milliseconds: 800),
               ),
-            ).then((value) {
-              Navigator.pop(context);
-            });
+            );
           },
         );
       },
