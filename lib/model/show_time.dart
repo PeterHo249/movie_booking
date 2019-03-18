@@ -3,6 +3,10 @@ class ShowTime {
   final List<ShowDescription> showDescriptions;
 
   ShowTime({this.date, this.showDescriptions});
+
+  String getShowDate() {
+    return '${date.day}/${date.month}/${date.year}';
+  }
 }
 
 class ShowDescription {

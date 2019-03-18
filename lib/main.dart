@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:movie_booking/view/general_info.dart';
+import 'package:movie_booking/view/screens/general_info.dart';
 
 void main() => runApp(MyApp());
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie_booking/model/movie.dart';
 import 'package:movie_booking/model/show_time.dart';
-import 'package:movie_booking/view/select_show.dart';
-import 'package:movie_booking/view/star_rating.dart';
+import 'package:movie_booking/view/components/select_show.dart';
+import 'package:movie_booking/view/components/star_rating.dart';
+import 'package:movie_booking/view/screens/select_seat.dart';
 
 class GeneralInfo extends StatefulWidget {
   GeneralInfo({
@@ -139,44 +140,70 @@ class _GeneralInfoState extends State<GeneralInfo> {
   Widget _buildPoster(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.height;
-    return Stack(
-      alignment: AlignmentDirectional.bottomEnd,
-      children: [
-        Container(
-          width: screenWidth,
-          height: screenHeight * 0.3,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                movie.poster,
-              ),
-              fit: BoxFit.fill,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: deepOrange,
-                blurRadius: 20.0,
-                offset: Offset(
-                  1.0,
-                  10.0,
+    return Hero(
+      tag: 'screen',
+      flightShuttleBuilder: (
+        BuildContext flightContext,
+        Animation<double> animation,
+        HeroFlightDirection flightDirection,
+        BuildContext fromHeroContext,
+        BuildContext toHeroContext,
+      ) {
+        final Hero toHero = toHeroContext.widget;
+
+        return AnimatedBuilder(
+          animation: animation,
+          child: toHero.child,
+          builder: (BuildContext context, Widget child) {
+            return Transform(
+              child: child,
+              alignment: FractionalOffset.topCenter,
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.006)
+                ..rotateX(animation.value * (3.14 / 2)),
+            );
+          },
+        );
+      },
+      child: Stack(
+        alignment: AlignmentDirectional.bottomEnd,
+        children: [
+          Container(
+            width: screenWidth,
+            height: screenHeight * 0.3,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  movie.poster,
                 ),
+                fit: BoxFit.fill,
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: FloatingActionButton(
-            child: Icon(
-              Icons.play_arrow,
-              color: Colors.white,
-              size: 35.0,
+              boxShadow: [
+                BoxShadow(
+                  color: deepOrange,
+                  blurRadius: 20.0,
+                  offset: Offset(
+                    1.0,
+                    10.0,
+                  ),
+                ),
+              ],
             ),
-            onPressed: () {},
-            backgroundColor: Colors.white.withAlpha(150),
           ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: FloatingActionButton(
+              child: Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 35.0,
+              ),
+              onPressed: () {},
+              backgroundColor: Colors.white.withAlpha(150),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -372,31 +399,34 @@ class _GeneralInfoState extends State<GeneralInfo> {
               horizontal: 15.0,
               vertical: 15.0,
             ),
-            child: Container(
-              child: Center(
-                child: Text(
-                  '\$${movie.price} BUY NOW',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: Colors.white,
+            child: Hero(
+              tag: 'bookingInfo',
+              child: Container(
+                child: Center(
+                  child: Text(
+                    '\$${movie.price} BUY NOW',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-              height: 50.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    Colors.orange,
-                    deepOrange,
-                  ],
-                  stops: [
-                    0.2,
-                    0.5,
-                  ],
+                height: 50.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.0),
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Colors.orange,
+                      deepOrange,
+                    ],
+                    stops: [
+                      0.2,
+                      0.5,
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -413,8 +443,21 @@ class _GeneralInfoState extends State<GeneralInfo> {
         return SelectShow(
           movie: movie,
           onShowSelected: (selectedShow) {
-            print(selectedShow);
-            Navigator.pop(context);
+            Navigator.of(context).pop();
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (
+                  BuildContext context,
+                  Animation<double> animation,
+                  Animation<double> secondaryAnimation,
+                ) {
+                  return SelectSeat(
+                    showTime: selectedShow,
+                  );
+                },
+                transitionDuration: Duration(milliseconds: 800),
+              ),
+            );
           },
         );
       },
