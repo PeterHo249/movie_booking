@@ -38,29 +38,32 @@ class _SeatBlockState extends State<SeatBlock> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildBlock(context),
-        Wrap(
-          spacing: 5.0,
-          runSpacing: 5.0,
-          children: selectedSeats.map((seat) {
-            return ActionChip(
-              onPressed: () {
-                setState(() {
-                  selectedSeats.removeWhere((testSeat) =>
-                      testSeat.col == seat.col && testSeat.row == seat.row);
-                  widget.onTap(selectedSeats.length);
-                });
-              },
-              backgroundColor: deepOrange,
-              label: Text(
-                '${seat.col}${seat.row} x',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15.0,
-                ),
+        selectedSeats.length == 0
+            ? _buildSeatDescription(context)
+            : Wrap(
+                spacing: 5.0,
+                runSpacing: 5.0,
+                children: selectedSeats.map((seat) {
+                  return ActionChip(
+                    onPressed: () {
+                      setState(() {
+                        selectedSeats.removeWhere((testSeat) =>
+                            testSeat.col == seat.col &&
+                            testSeat.row == seat.row);
+                        widget.onTap(selectedSeats.length);
+                      });
+                    },
+                    backgroundColor: deepOrange,
+                    label: Text(
+                      '${seat.col}${seat.row} x',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
-            );
-          }).toList(),
-        ),
       ],
     );
   }
@@ -261,6 +264,88 @@ class _SeatBlockState extends State<SeatBlock> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSeatDescription(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+                vertical: 5.0,
+              ),
+              child: Container(
+                height: 20.0,
+                width: 20.0,
+                decoration: BoxDecoration(
+                  color: deepOrange,
+                  border: Border.all(color: deepOrange),
+                ),
+              ),
+            ),
+            Text(
+              'Selected',
+              style: TextStyle(
+                fontSize: 15.0,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+                vertical: 5.0,
+              ),
+              child: Container(
+                height: 20.0,
+                width: 20.0,
+                decoration: BoxDecoration(
+                  color: deepOrange.withAlpha(150),
+                  border: Border.all(color: deepOrange.withAlpha(150)),
+                ),
+              ),
+            ),
+            Text(
+              'Reversed',
+              style: TextStyle(
+                fontSize: 15.0,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+                vertical: 5.0,
+              ),
+              child: Container(
+                height: 20.0,
+                width: 20.0,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(),
+                ),
+              ),
+            ),
+            Text(
+              'Available',
+              style: TextStyle(
+                fontSize: 15.0,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
