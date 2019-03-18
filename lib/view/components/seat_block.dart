@@ -4,11 +4,13 @@ import 'package:movie_booking/model/block.dart';
 class SeatBlock extends StatefulWidget {
   final Block block;
   final List<Seat> reversedSeats;
+  final void Function(int) onTap;
 
   SeatBlock({
     Key key,
     this.block,
     this.reversedSeats = const <Seat>[],
+    this.onTap,
   }) : super(key: key);
 
   _SeatBlockState createState() => _SeatBlockState();
@@ -32,7 +34,7 @@ class _SeatBlockState extends State<SeatBlock> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildBlock(context),
@@ -45,6 +47,7 @@ class _SeatBlockState extends State<SeatBlock> {
                 setState(() {
                   selectedSeats.removeWhere((testSeat) =>
                       testSeat.col == seat.col && testSeat.row == seat.row);
+                  widget.onTap(selectedSeats.length);
                 });
               },
               backgroundColor: deepOrange,
@@ -52,7 +55,7 @@ class _SeatBlockState extends State<SeatBlock> {
                 '${seat.col}${seat.row} x',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20.0,
+                  fontSize: 15.0,
                 ),
               ),
             );
@@ -228,7 +231,7 @@ class _SeatBlockState extends State<SeatBlock> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: InkWell(
         onTap: () {
           setState(() {
@@ -239,10 +242,12 @@ class _SeatBlockState extends State<SeatBlock> {
                   row: row,
                 ),
               );
+              widget.onTap(selectedSeats.length);
             } else {
               if (state == SeatState.selected) {
                 selectedSeats
                     .removeWhere((seat) => seat.col == col && seat.row == row);
+                widget.onTap(selectedSeats.length);
               }
             }
           });

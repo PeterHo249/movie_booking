@@ -18,6 +18,7 @@ class _SelectSeatState extends State<SelectSeat> {
     columnCount: 6,
     seatCount: 60,
   );
+  int selectedSeatCount = 0;
 
   void initState() {
     super.initState();
@@ -56,7 +57,10 @@ class _SelectSeatState extends State<SelectSeat> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 10.0,
+            ),
             child: Text(
               'Select Seat',
               style: TextStyle(
@@ -116,7 +120,7 @@ class _SelectSeatState extends State<SelectSeat> {
   Widget _buildSeatBlock(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.55,
+        height: MediaQuery.of(context).size.height * 0.6,
         width: MediaQuery.of(context).size.width - 20.0,
         child: SeatBlock(
           block: block,
@@ -124,6 +128,11 @@ class _SelectSeatState extends State<SelectSeat> {
             Seat(col: 'A', row: '5'),
             Seat(col: 'E', row: '7'),
           ],
+          onTap: (value) {
+            setState(() {
+             selectedSeatCount =value; 
+            });
+          },
         ),
       ),
     );
@@ -182,7 +191,7 @@ class _SelectSeatState extends State<SelectSeat> {
                 flex: 3,
                 child: Center(
                   child: Text(
-                    '\$12',
+                    '\$${selectedSeatCount * 10}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30.0,
