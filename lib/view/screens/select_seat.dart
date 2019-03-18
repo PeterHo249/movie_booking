@@ -96,12 +96,13 @@ class _SelectSeatState extends State<SelectSeat> {
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      deepOrange.withAlpha(80),
-                      Colors.white,
-                    ]),
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    deepOrange.withAlpha(80),
+                    Colors.white,
+                  ],
+                ),
               ),
               height: 50.0,
               width: screenWidth * 0.6,
@@ -115,7 +116,7 @@ class _SelectSeatState extends State<SelectSeat> {
   Widget _buildSeatBlock(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: MediaQuery.of(context).size.height * 0.55,
         width: MediaQuery.of(context).size.width - 20.0,
         child: SeatBlock(
           block: block,

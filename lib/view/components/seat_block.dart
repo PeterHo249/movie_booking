@@ -30,7 +30,36 @@ class _SeatBlockState extends State<SeatBlock> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildBlock(context);
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        _buildBlock(context),
+        Wrap(
+          spacing: 5.0,
+          runSpacing: 5.0,
+          children: selectedSeats.map((seat) {
+            return ActionChip(
+              onPressed: () {
+                setState(() {
+                  selectedSeats.removeWhere((testSeat) =>
+                      testSeat.col == seat.col && testSeat.row == seat.row);
+                });
+              },
+              backgroundColor: deepOrange,
+              label: Text(
+                '${seat.col}${seat.row} x',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
   }
 
   Widget _buildBlock(BuildContext context) {
@@ -199,7 +228,7 @@ class _SeatBlockState extends State<SeatBlock> {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
       child: InkWell(
         onTap: () {
           setState(() {
