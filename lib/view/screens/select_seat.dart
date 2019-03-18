@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_booking/model/block.dart';
 import 'package:movie_booking/model/show_time.dart';
-import 'package:movie_booking/view/seat_block.dart';
+import 'package:movie_booking/view/components/seat_block.dart';
 
 class SelectSeat extends StatefulWidget {
   final ShowTime showTime;

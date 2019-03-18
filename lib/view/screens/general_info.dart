@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie_booking/model/movie.dart';
 import 'package:movie_booking/model/show_time.dart';
-import 'package:movie_booking/view/select_seat.dart';
-import 'package:movie_booking/view/select_show.dart';
-import 'package:movie_booking/view/star_rating.dart';
+import 'package:movie_booking/view/components/select_show.dart';
+import 'package:movie_booking/view/components/star_rating.dart';
+import 'package:movie_booking/view/screens/select_seat.dart';
 
 class GeneralInfo extends StatefulWidget {
   GeneralInfo({
