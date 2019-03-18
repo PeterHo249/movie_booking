@@ -13,11 +13,11 @@ class SelectSeat extends StatefulWidget {
 
 class _SelectSeatState extends State<SelectSeat> {
   final Color deepOrange = Color(0xfff45716);
-  final List<Block> blocks = [
-    Block(rowCount: 10, columnCount: 3, seatCount: 300),
-    Block(rowCount: 10, columnCount: 6, seatCount: 600),
-    Block(rowCount: 10, columnCount: 3, seatCount: 300),
-  ];
+  final block = Block(
+    rowCount: 10,
+    columnCount: 6,
+    seatCount: 60,
+  );
 
   void initState() {
     super.initState();
@@ -113,8 +113,18 @@ class _SelectSeatState extends State<SelectSeat> {
   }
 
   Widget _buildSeatBlock(BuildContext context) {
-    return SeatBlock(
-      blocks: blocks,
+    return Center(
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.5,
+        width: MediaQuery.of(context).size.width - 20.0,
+        child: SeatBlock(
+          block: block,
+          reversedSeats: [
+            Seat(col: 'A', row: '5'),
+            Seat(col: 'E', row: '7'),
+          ],
+        ),
+      ),
     );
   }
 

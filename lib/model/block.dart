@@ -9,3 +9,13 @@ class Block {
     this.columnCount,
   });
 }
+
+class Seat {
+  final String col;
+  final String row;
+
+  Seat({
+    this.col,
+    this.row,
+  });
+}

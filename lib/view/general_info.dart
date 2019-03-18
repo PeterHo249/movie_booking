@@ -373,31 +373,34 @@ class _GeneralInfoState extends State<GeneralInfo> {
               horizontal: 15.0,
               vertical: 15.0,
             ),
-            child: Container(
-              child: Center(
-                child: Text(
-                  '\$${movie.price} BUY NOW',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: Colors.white,
+            child: Hero(
+              tag: 'bookingInfo',
+              child: Container(
+                child: Center(
+                  child: Text(
+                    '\$${movie.price} BUY NOW',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
-              height: 50.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.0),
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    Colors.orange,
-                    deepOrange,
-                  ],
-                  stops: [
-                    0.2,
-                    0.5,
-                  ],
+                height: 50.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.0),
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Colors.orange,
+                      deepOrange,
+                    ],
+                    stops: [
+                      0.2,
+                      0.5,
+                    ],
+                  ),
                 ),
               ),
             ),
